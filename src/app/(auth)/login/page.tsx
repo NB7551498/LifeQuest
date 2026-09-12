@@ -51,19 +51,40 @@ function LoginForm() {
     setIsLoading(true);
     setError(null);
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
+    const startDemoMode = () => {
+      document.cookie = `lifequest_demo=true; path=/; max-age=${60 * 60 * 24 * 30}`;
+      router.refresh();
+      router.push(nextPath);
+    };
 
-    if (authError) {
-      setError(authError.message);
-      setIsLoading(false);
-      return;
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (authError) {
+        if (
+          authError.message?.toLowerCase().includes("fetch") ||
+          authError.message?.toLowerCase().includes("network") ||
+          authError.message?.toLowerCase().includes("url") ||
+          !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+          process.env.NEXT_PUBLIC_SUPABASE_URL.includes("your-project")
+        ) {
+          startDemoMode();
+          return;
+        }
+
+        setError(authError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      router.refresh();
+      router.push(nextPath);
+    } catch {
+      startDemoMode();
     }
-
-    router.refresh();
-    router.push(nextPath);
   }
 
   return (
@@ -147,6 +168,18 @@ function LoginForm() {
               <span>Enter the Realm</span>
             )}
           </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            document.cookie = "lifequest_demo=true; path=/; max-age=2592000";
+            router.refresh();
+            router.push(nextPath);
+          }}
+          className="w-full py-2.5 px-4 rounded-lg bg-slate-800/80 border border-slate-700 hover:border-amber-500/50 text-slate-300 hover:text-amber-400 font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+        >
+          🎮 Explore in Instant Demo Mode
         </button>
       </form>
 

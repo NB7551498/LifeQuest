@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import InventoryClient from './inventory-client';
+import { DEMO_INVENTORY } from '@/lib/auth/demo-helper';
 
 export const metadata = {
   title: 'Inventory | LifeQuest',
@@ -9,17 +10,17 @@ export default async function InventoryPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    return <div className="p-8 text-slate-400">Not authenticated</div>;
-  }
+  let inventoryData: any[] = DEMO_INVENTORY;
 
-  const { data: inventoryData, error } = await supabase
-    .from('inventory')
-    .select('*, items(*)')
-    .eq('user_id', user.id);
+  if (user) {
+    const { data: resData } = await supabase
+      .from('inventory')
+      .select('*, items(*)')
+      .eq('user_id', user.id);
 
-  if (error) {
-    return <div className="p-8 text-red-400">Error loading inventory</div>;
+    if (resData && resData.length > 0) {
+      inventoryData = resData;
+    }
   }
 
   return (

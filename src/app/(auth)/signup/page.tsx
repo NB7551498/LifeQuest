@@ -34,28 +34,49 @@ export default function SignupPage() {
     setIsLoading(true);
     setError(null);
 
-    // Lazily create the Supabase client so it never runs during prerendering
-    const supabase = createClient();
+    const startDemoMode = () => {
+      document.cookie = `lifequest_demo=true; path=/; max-age=${60 * 60 * 24 * 30}`;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("lifequest_hero_name", data.username || "Hero");
+      }
+      router.push("/app/dashboard");
+    };
 
-    const { error: authError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        data: {
-          username: data.username,
+    try {
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            username: data.username,
+          },
         },
-      },
-    });
+      });
 
-    if (authError) {
-      setError(authError.message);
+      if (authError) {
+        if (
+          authError.message?.toLowerCase().includes("fetch") ||
+          authError.message?.toLowerCase().includes("network") ||
+          authError.message?.toLowerCase().includes("url") ||
+          !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+          process.env.NEXT_PUBLIC_SUPABASE_URL.includes("your-project")
+        ) {
+          startDemoMode();
+          return;
+        }
+
+        setError(authError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      setSuccess(true);
       setIsLoading(false);
-      return;
+    } catch {
+      // Fallback to Demo Mode on fetch failure so the user is never blocked
+      startDemoMode();
     }
-
-    setSuccess(true);
-    setIsLoading(false);
-    // Optional: wait a moment then redirect or let them verify email
   }
 
   if (success) {
@@ -197,6 +218,17 @@ export default function SignupPage() {
               <span>Create Your Hero</span>
             )}
           </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            document.cookie = "lifequest_demo=true; path=/; max-age=2592000";
+            router.push("/app/dashboard");
+          }}
+          className="w-full py-2.5 px-4 rounded-lg bg-slate-800/80 border border-slate-700 hover:border-amber-500/50 text-slate-300 hover:text-amber-400 font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+        >
+          🎮 Explore in Instant Demo Mode
         </button>
       </form>
 

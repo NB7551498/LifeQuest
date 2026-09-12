@@ -16,6 +16,10 @@ import {
   ScrollText,
   Settings,
   X,
+  Gamepad2,
+  Brain,
+  Flame,
+  Compass,
 } from "lucide-react";
 
 const mainTabs = [
@@ -26,6 +30,10 @@ const mainTabs = [
 ];
 
 const moreTabs = [
+  { href: "/app/games", label: "Mini-Games", icon: Gamepad2 },
+  { href: "/app/quizzes", label: "Quizzes", icon: Brain },
+  { href: "/app/boss", label: "Boss Battles", icon: Flame },
+  { href: "/app/map", label: "World Map", icon: Compass },
   { href: "/app/inventory", label: "Inventory", icon: Backpack },
   { href: "/app/achievements", label: "Achievements", icon: Trophy },
   { href: "/app/analytics", label: "Analytics", icon: BarChart3 },

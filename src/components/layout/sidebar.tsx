@@ -13,6 +13,10 @@ import {
   BarChart3,
   ScrollText,
   Settings,
+  Gamepad2,
+  Brain,
+  Flame,
+  Compass,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -22,6 +26,10 @@ interface SidebarProps {
 const navItems = [
   { href: "/app/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/app/quests", label: "Quests", icon: Swords },
+  { href: "/app/games", label: "Mini-Games", icon: Gamepad2 },
+  { href: "/app/quizzes", label: "Quizzes", icon: Brain },
+  { href: "/app/boss", label: "Boss Battles", icon: Flame },
+  { href: "/app/map", label: "World Map", icon: Compass },
   { href: "/app/character", label: "Character", icon: User },
   { href: "/app/inventory", label: "Inventory", icon: Backpack },
   { href: "/app/shop", label: "Shop", icon: ShoppingBag },

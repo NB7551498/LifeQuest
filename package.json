@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "npx tsx --test src/lib/rpg/__tests__/rpg-engine.test.ts",
+    "test": "npx tsx --test src/lib/rpg/__tests__/*.test.ts",
     "lint": "eslint"
   },
   "dependencies": {

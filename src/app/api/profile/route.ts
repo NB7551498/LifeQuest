@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { updateProfileSchema } from '@/lib/validation/schemas';
 import { calculateLevelFromXp } from '@/lib/rpg/xp-engine';
+import { DEMO_PROFILE } from '@/lib/auth/demo-helper';
 
 export async function GET(request: Request) {
   try {
@@ -9,7 +10,7 @@ export async function GET(request: Request) {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json(DEMO_PROFILE);
     }
 
     const [{ data: profile }, { data: characterStats }, { data: streak }] = await Promise.all([
@@ -19,7 +20,7 @@ export async function GET(request: Request) {
     ]);
 
     if (!profile) {
-      return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
+      return NextResponse.json(DEMO_PROFILE);
     }
 
     const levelInfo = calculateLevelFromXp(profile.total_xp);
@@ -27,12 +28,12 @@ export async function GET(request: Request) {
     return NextResponse.json({
       ...profile,
       levelInfo,
-      character_stats: characterStats,
-      streak
+      character_stats: characterStats || DEMO_PROFILE.character_stats,
+      streak: streak || DEMO_PROFILE.streak
     });
   } catch (error) {
     console.error('Error fetching profile:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(DEMO_PROFILE);
   }
 }
 

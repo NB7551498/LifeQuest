@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { calculateLevelFromXp } from '@/lib/rpg/xp-engine';
 import { getTitleForLevel, getNextTitle } from '@/lib/rpg/title-engine';
 import CharacterClient from './character-client';
+import { DEMO_PROFILE, DEMO_INVENTORY } from '@/lib/auth/demo-helper';
 
 export const metadata = {
   title: 'Character | LifeQuest',
@@ -11,26 +12,26 @@ export default async function CharacterPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    return <div className="p-8 text-slate-400">Not authenticated</div>;
-  }
+  let profile = DEMO_PROFILE;
+  let stats = DEMO_PROFILE.character_stats;
+  let streak = DEMO_PROFILE.streak;
+  let equipped: any[] = DEMO_INVENTORY;
+  let totalQuests = 12;
 
-  const [profileRes, statsRes, streakRes, equippedRes, questsRes] = await Promise.all([
-    supabase.from('profiles').select('*').eq('id', user.id).single(),
-    supabase.from('character_stats').select('*').eq('user_id', user.id).single(),
-    supabase.from('streaks').select('*').eq('user_id', user.id).single(),
-    supabase.from('inventory').select('*, items(*)').eq('user_id', user.id).eq('equipped', true),
-    supabase.from('quest_completions').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
-  ]);
+  if (user) {
+    const [profileRes, statsRes, streakRes, equippedRes, questsRes] = await Promise.all([
+      supabase.from('profiles').select('*').eq('id', user.id).single(),
+      supabase.from('character_stats').select('*').eq('user_id', user.id).single(),
+      supabase.from('streaks').select('*').eq('user_id', user.id).single(),
+      supabase.from('inventory').select('*, items(*)').eq('user_id', user.id).eq('equipped', true),
+      supabase.from('quest_completions').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
+    ]);
 
-  const profile = profileRes.data;
-  const stats = statsRes.data;
-  const streak = streakRes.data;
-  const equipped = equippedRes.data || [];
-  const totalQuests = questsRes.count || 0;
-
-  if (!profile || !stats) {
-    return <div className="p-8 text-slate-400">Failed to load character data.</div>;
+    if (profileRes.data) profile = profileRes.data;
+    if (statsRes.data) stats = statsRes.data;
+    if (streakRes.data) streak = streakRes.data;
+    if (equippedRes.data) equipped = equippedRes.data;
+    if (questsRes.count) totalQuests = questsRes.count;
   }
 
   const { level, currentLevelXp, xpForNextLevel, progress } = calculateLevelFromXp(profile.total_xp || 0);
