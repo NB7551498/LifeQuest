@@ -28,6 +28,42 @@ export const QUIZ_CATEGORIES: QuizCategory[] = [
     attribute: 'intellect',
     subcategories: [
       {
+        id: 'python',
+        name: 'Python',
+        questions: {
+          easy: [
+            { id: 'py-1', question: 'What does `len()` do in Python?', options: ['Returns length', 'Converts to list', 'Returns type', 'Prints output'], correctIndex: 0 },
+            { id: 'py-2', question: 'Which keyword is used to define a function in Python?', options: ['func', 'function', 'def', 'define'], correctIndex: 2 },
+            { id: 'py-3', question: 'What is the output of `print(2 ** 3)`?', options: ['6', '8', '5', '9'], correctIndex: 1 },
+          ],
+          medium: [
+            { id: 'py-4', question: 'Which data type is immutable in Python?', options: ['List', 'Dictionary', 'Set', 'Tuple'], correctIndex: 3 },
+            { id: 'py-5', question: 'What does `import` do?', options: ['Deletes a module', 'Loads a module', 'Creates a variable', 'Compiles code'], correctIndex: 1 },
+          ],
+          hard: [
+            { id: 'py-6', question: 'Which loop iterates over a sequence?', options: ['for', 'while', 'do-while', 'repeat'], correctIndex: 0 },
+          ]
+        }
+      },
+      {
+        id: 'java',
+        name: 'Java',
+        questions: {
+          easy: [
+            { id: 'java-1', question: 'What is the entry point of a Java program?', options: ['start()', 'main()', 'init()', 'run()'], correctIndex: 1 },
+            { id: 'java-2', question: 'Which keyword creates a class in Java?', options: ['struct', 'object', 'class', 'type'], correctIndex: 2 },
+          ],
+          medium: [
+            { id: 'java-3', question: 'Java runs on which virtual machine?', options: ['JVM', 'JRE', 'JDK', 'JIT'], correctIndex: 0 },
+            { id: 'java-4', question: 'Which is NOT a primitive type in Java?', options: ['int', 'boolean', 'String', 'char'], correctIndex: 2 },
+          ],
+          hard: [
+            { id: 'java-5', question: 'What does `System.out.println()` do?', options: ['Reads input', 'Writes output', 'Compiles code', 'Imports package'], correctIndex: 1 },
+            { id: 'java-6', question: 'Which modifier makes a method accessible everywhere?', options: ['private', 'protected', 'public', 'default'], correctIndex: 2 },
+          ]
+        }
+      },
+      {
         id: 'javascript',
         name: 'JavaScript & TS',
         questions: {
@@ -161,26 +197,58 @@ export const QUIZ_CATEGORIES: QuizCategory[] = [
     attribute: 'creativity',
     subcategories: [
       {
-        id: 'tech_history',
-        name: 'Tech & Science',
+        id: 'gk',
+        name: 'General Knowledge',
         questions: {
           easy: [
-            {
-              id: 'gen-e-1',
-              question: 'Who is widely considered the pioneer of computer science and inventor of the Turing Machine?',
-              options: ['Steve Jobs', 'Alan Turing', 'Bill Gates', 'Tim Berners-Lee'],
-              correctIndex: 1,
-            },
+            { id: 'gk-1', question: 'What is the capital of France?', options: ['London', 'Berlin', 'Paris', 'Madrid'], correctIndex: 2 },
+            { id: 'gk-2', question: 'Which planet is known as the Red Planet?', options: ['Venus', 'Mars', 'Jupiter', 'Saturn'], correctIndex: 1 },
           ],
           medium: [
-            {
-              id: 'gen-m-1',
-              question: 'Which year was the World Wide Web introduced to the public domain by CERN?',
-              options: ['1979', '1985', '1993', '1999'],
-              correctIndex: 2,
-            },
+            { id: 'gk-3', question: 'How many continents are there on Earth?', options: ['5', '6', '7', '8'], correctIndex: 2 },
+            { id: 'gk-4', question: 'What is the largest ocean on Earth?', options: ['Atlantic', 'Indian', 'Arctic', 'Pacific'], correctIndex: 3 },
           ],
-        },
+          hard: [
+            { id: 'gk-5', question: 'Who painted the Mona Lisa?', options: ['Van Gogh', 'Picasso', 'Da Vinci', 'Monet'], correctIndex: 2 },
+            { id: 'gk-6', question: 'What is the chemical symbol for gold?', options: ['Go', 'Gd', 'Au', 'Ag'], correctIndex: 2 },
+          ]
+        }
+      },
+      {
+        id: 'news',
+        name: 'Current News & Tech',
+        questions: {
+          easy: [
+            { id: 'news-1', question: "What does 'AI' stand for in technology?", options: ['Auto Interface', 'Artificial Intelligence', 'Applied Innovation', 'Active Input'], correctIndex: 1 },
+            { id: 'news-2', question: 'Which company developed ChatGPT?', options: ['Google', 'Meta', 'OpenAI', 'Microsoft'], correctIndex: 2 },
+          ],
+          medium: [
+            { id: 'news-3', question: "What is a 'hashtag' used for on social media?", options: ['Deleting posts', 'Categorizing content', 'Sending messages', 'Blocking users'], correctIndex: 1 },
+            { id: 'news-4', question: "What does '5G' refer to?", options: ['5th Generation', '5 Gigabytes', '5 Gigahertz', '5 Graphics'], correctIndex: 0 },
+          ],
+          hard: [
+            { id: 'news-5', question: "Which planet did NASA's Perseverance rover land on?", options: ['Venus', 'Mars', 'Moon', 'Jupiter'], correctIndex: 1 },
+            { id: 'news-6', question: "What is 'blockchain' primarily used for?", options: ['Gaming', 'Decentralized transactions', 'Video editing', 'Photo storage'], correctIndex: 1 },
+          ]
+        }
+      },
+      {
+        id: 'dosdonts',
+        name: "Developer Do's & Don'ts",
+        questions: {
+          easy: [
+            { id: 'dd-1', question: 'Do: What should you do before pushing code?', options: ['Skip testing', 'Review and test', 'Delete files', 'Ignore errors'], correctIndex: 1 },
+            { id: 'dd-2', question: "Don't: What should you NOT share publicly?", options: ['Your name', 'API keys and secrets', 'Public projects', 'Documentation'], correctIndex: 1 },
+          ],
+          medium: [
+            { id: 'dd-3', question: 'Do: How should you handle errors?', options: ['Ignore them', 'Use try-catch blocks', 'Delete the file', 'Restart the app'], correctIndex: 1 },
+            { id: 'dd-4', question: "Don't: What is bad practice in version control?", options: ['Commit often', 'Write clear messages', 'Push directly to main', 'Use branches'], correctIndex: 2 },
+          ],
+          hard: [
+            { id: 'dd-5', question: 'Do: What is the best way to learn a new framework?', options: ['Read docs only', 'Build projects', 'Watch others code', 'Memorize syntax'], correctIndex: 1 },
+            { id: 'dd-6', question: "Don't: What should you avoid in passwords?", options: ['Long phrases', 'Using same password everywhere', 'Using special characters', 'Using a password manager'], correctIndex: 1 },
+          ]
+        }
       },
     ],
   },

@@ -53,8 +53,11 @@ function LoginForm() {
 
     const startDemoMode = () => {
       document.cookie = `lifequest_demo=true; path=/; max-age=${60 * 60 * 24 * 30}`;
-      router.refresh();
-      router.push(nextPath);
+      if (typeof window !== "undefined") {
+        const heroName = data.email ? data.email.split("@")[0] : "Hero";
+        localStorage.setItem("lifequest_hero_name", heroName);
+      }
+      window.location.href = nextPath || "/app/dashboard";
     };
 
     try {
@@ -64,24 +67,13 @@ function LoginForm() {
       });
 
       if (authError) {
-        if (
-          authError.message?.toLowerCase().includes("fetch") ||
-          authError.message?.toLowerCase().includes("network") ||
-          authError.message?.toLowerCase().includes("url") ||
-          !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-          process.env.NEXT_PUBLIC_SUPABASE_URL.includes("your-project")
-        ) {
-          startDemoMode();
-          return;
-        }
-
-        setError(authError.message);
-        setIsLoading(false);
+        // Fallback to Demo Mode on any auth error so the user can enter the realm immediately
+        startDemoMode();
         return;
       }
 
       router.refresh();
-      router.push(nextPath);
+      window.location.href = nextPath || "/app/dashboard";
     } catch {
       startDemoMode();
     }
@@ -174,8 +166,7 @@ function LoginForm() {
           type="button"
           onClick={() => {
             document.cookie = "lifequest_demo=true; path=/; max-age=2592000";
-            router.refresh();
-            router.push(nextPath);
+            window.location.href = "/app/dashboard";
           }}
           className="w-full py-2.5 px-4 rounded-lg bg-slate-800/80 border border-slate-700 hover:border-amber-500/50 text-slate-300 hover:text-amber-400 font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
         >

@@ -73,6 +73,15 @@ export default function LandingPage() {
             <span className="text-xl font-bold text-white tracking-wider">LifeQuest</span>
           </div>
           <div className="flex items-center gap-4">
+            <button
+              onClick={() => {
+                document.cookie = "lifequest_demo=true; path=/; max-age=2592000";
+                window.location.href = "/app/dashboard";
+              }}
+              className="text-sm font-medium text-amber-400 hover:text-amber-300 border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5"
+            >
+              🎮 Demo Mode
+            </button>
             <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
               Sign In
             </Link>
@@ -101,17 +110,26 @@ export default function LandingPage() {
               Become the legendary hero of your own story.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link 
-                href="/signup" 
+              <button
+                onClick={() => {
+                  document.cookie = "lifequest_demo=true; path=/; max-age=2592000";
+                  window.location.href = "/app/dashboard";
+                }}
                 className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_30px_rgba(245,158,11,0.6)] flex items-center justify-center gap-2 transform hover:-translate-y-1"
               >
-                Start Your Journey <ArrowRight className="w-5 h-5" />
+                🎮 Enter Realm (Instant Demo) <ArrowRight className="w-5 h-5" />
+              </button>
+              <Link 
+                href="/signup" 
+                className="w-full sm:w-auto bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white font-medium text-lg px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2"
+              >
+                Create Account
               </Link>
               <Link 
                 href="/login" 
-                className="w-full sm:w-auto bg-slate-800/50 hover:bg-slate-800 border border-slate-700 text-white font-medium text-lg px-8 py-4 rounded-xl transition-all"
+                className="w-full sm:w-auto bg-slate-800/40 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white font-medium text-lg px-6 py-4 rounded-xl transition-all"
               >
-                Continue Quest
+                Sign In
               </Link>
             </div>
           </motion.div>
@@ -193,12 +211,23 @@ export default function LandingPage() {
               <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
                 Join other adventurers who have already gamified their lives. The realm awaits your arrival.
               </p>
-              <Link 
-                href="/signup" 
-                className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xl px-10 py-5 rounded-xl transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_50px_rgba(245,158,11,0.5)] transform hover:-translate-y-1"
-              >
-                Create Character <Swords className="w-6 h-6" />
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button
+                  onClick={() => {
+                    document.cookie = "lifequest_demo=true; path=/; max-age=2592000";
+                    window.location.href = "/app/dashboard";
+                  }}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold text-xl px-10 py-5 rounded-xl transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_50px_rgba(245,158,11,0.5)] transform hover:-translate-y-1"
+                >
+                  🎮 Enter Realm (Instant Demo) <Swords className="w-6 h-6" />
+                </button>
+                <Link 
+                  href="/signup" 
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white font-medium text-xl px-8 py-5 rounded-xl transition-all"
+                >
+                  Create Account
+                </Link>
+              </div>
             </div>
           </motion.div>
         </section>
