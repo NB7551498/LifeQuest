@@ -1,0 +1,117 @@
+{
+  "users": [
+    {
+      "_id": "demo-hero-id",
+      "username": "HeroAdventurer",
+      "email": "hero@example.com",
+      "level": 12,
+      "xp": 80,
+      "totalXP": 2480,
+      "gold": 450,
+      "quizzesCompleted": 0,
+      "correctAnswers": 0,
+      "categoryScores": {},
+      "createdAt": "2026-09-12T14:21:35.983Z"
+    }
+  ],
+  "quests": [
+    {
+      "id": "demo-quest-2",
+      "user_id": "demo-hero-id",
+      "title": "30 Minute High-Intensity Workout",
+      "description": "Pushups, pullups, core training, and 15 min cardio sprint",
+      "category": "fitness",
+      "difficulty": "medium",
+      "xp_reward": 60,
+      "gold_reward": 20,
+      "attribute": "strength",
+      "status": "active",
+      "due_date": "2026-09-12T23:59:59",
+      "is_recurring": true,
+      "created_at": "2026-09-12T14:21:35.965Z"
+    },
+    {
+      "id": "demo-quest-3",
+      "user_id": "demo-hero-id",
+      "title": "Morning Mindfulness & Meditation",
+      "description": "15 minutes of deep breathing and daily objective setting",
+      "category": "mindfulness",
+      "difficulty": "easy",
+      "xp_reward": 30,
+      "gold_reward": 10,
+      "attribute": "discipline",
+      "status": "completed",
+      "due_date": "2026-09-12T23:59:59",
+      "is_recurring": true,
+      "created_at": "2026-09-12T14:21:35.965Z"
+    }
+  ],
+  "profile": {
+    "id": "demo-hero-id",
+    "username": "HeroAdventurer",
+    "email": "hero@example.com",
+    "avatar_url": null,
+    "level": 5,
+    "total_xp": 2540,
+    "gold": 470,
+    "title": "Apprentice",
+    "created_at": "2026-09-12T14:21:35.965Z",
+    "levelInfo": {
+      "level": 5,
+      "currentLevelXp": 779,
+      "xpForNextLevel": 1118,
+      "progress": 0.6967799642218246,
+      "totalXp": 2480
+    },
+    "character_stats": {
+      "user_id": "demo-hero-id",
+      "intellect": 82,
+      "strength": 131,
+      "vitality": 87,
+      "discipline": 76,
+      "creativity": 58,
+      "social": 64
+    },
+    "streak": {
+      "user_id": "demo-hero-id",
+      "current_streak": 14,
+      "longest_streak": 14,
+      "last_activity_date": "2026-09-12"
+    }
+  },
+  "inventory": [
+    {
+      "id": "inv-1",
+      "user_id": "demo-hero-id",
+      "item_id": "item-shadow-sword",
+      "quantity": 1,
+      "equipped": true,
+      "items": {
+        "id": "item-shadow-sword",
+        "name": "Shadow Sword",
+        "description": "Slices through tough procrastination tasks.",
+        "type": "weapon",
+        "price": 500,
+        "rarity": "rare",
+        "icon": "⚔️"
+      }
+    },
+    {
+      "id": "inv-2",
+      "user_id": "demo-hero-id",
+      "item_id": "item-iron-shield",
+      "quantity": 1,
+      "equipped": false,
+      "items": {
+        "id": "item-iron-shield",
+        "name": "Iron Shield",
+        "description": "A sturdy shield providing protection against laziness.",
+        "type": "shield",
+        "price": 250,
+        "rarity": "uncommon",
+        "icon": "🛡️"
+      }
+    }
+  ],
+  "todos": []
+}
