@@ -1,11 +1,12 @@
 {
-  "name": "lifequest-temp",
+  "name": "lifequest",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "npx tsx --test src/lib/rpg/__tests__/rpg-engine.test.ts",
     "lint": "eslint"
   },
   "dependencies": {
