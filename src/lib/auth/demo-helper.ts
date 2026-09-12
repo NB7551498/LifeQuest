@@ -4,8 +4,9 @@ export function isDemoEnvironment(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   return (
     !url ||
-    url === 'https://your-project.supabase.co' ||
-    url === 'https://placeholder.supabase.co'
+    url.includes('your-project') ||
+    url.includes('placeholder') ||
+    url === 'https://your-project.supabase.co'
   );
 }
 
