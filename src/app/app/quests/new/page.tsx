@@ -55,8 +55,7 @@ export default function NewQuestPage() {
         throw new Error("Failed to create quest");
       }
 
-      router.push("/quests");
-      router.refresh();
+      window.location.href = "/app/quests";
     } catch (err: any) {
       setError(err.errors ? err.errors[0].message : err.message || "An error occurred");
     } finally {
@@ -66,7 +65,7 @@ export default function NewQuestPage() {
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
-      <Link href="/quests" className="flex items-center text-slate-400 hover:text-white mb-6 transition-colors w-fit">
+      <Link href="/app/quests" className="flex items-center text-slate-400 hover:text-white mb-6 transition-colors w-fit">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Quests
       </Link>

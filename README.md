@@ -47,11 +47,17 @@ LifeQuest is a full-stack gamified productivity app built with **Next.js (App Ro
 - Completion rate, best attribute, attribute radar
 - Full transaction history (earned/spent/achievement/streak)
 
-### 🔐 Security
-- **All reward calculation happens server-side** — clients only send `POST /api/quests/:id/complete`
-- Server verifies authentication, quest ownership, and `active` status (no duplicate completions)
-- Row Level Security (RLS) enabled on all tables
-- Server-side Zod validation on every API boundary
+#### 🎮 Arena Mini-Games & Quizzes
+- **Skill Games** ([`/app/games`](http://localhost:3000/app/games)): Reaction Challenge, Memory Trial, Number Sprint, and Logic Dungeon
+- **Knowledge Arena** ([`/app/quizzes`](http://localhost:3000/app/quizzes)): Python, Java, General Knowledge, Current News, and Developer Do's & Don'ts
+- Difficulty Tiers (Easy +20 XP, Medium +40 XP, Hard +75 XP, Expert +120 XP) with automated RPG attribute rewards
+
+### 🐉 Boss Battles & Adventure Map
+- **Boss Battles** ([`/app/boss`](http://localhost:3000/app/boss)): Daily task completions deal real HP damage to active productivity bosses (e.g. *The Procrastination Dragon*).
+- **World Map** ([`/app/map`](http://localhost:3000/app/map)): Visual adventure node graph with level unlock progression.
+
+### 💾 Local JSON Persistence & Auth Fallback
+- Local persistent file database (`data/db.json`) guarantees instant offline demo mode functionality.
 
 ---
 
@@ -63,8 +69,8 @@ LifeQuest is a full-stack gamified productivity app built with **Next.js (App Ro
 | Styling  | Tailwind CSS v4, Framer Motion, Recharts |
 | Forms    | React Hook Form + Zod |
 | Backend  | Next.js Route Handlers (`src/app/api/*`) |
-| Database | Supabase / PostgreSQL + Row Level Security |
-| Auth     | Supabase Auth (email/password) |
+| Storage  | Local JSON Database (`data/db.json`) + Supabase / PostgreSQL |
+| Auth     | Supabase Auth + Instant Demo Mode |
 | Deployment | Vercel + Supabase |
 
 ---
@@ -79,61 +85,13 @@ cd LifeQuest
 npm install
 ```
 
-### 2. Create a Supabase project
-
-1. Go to [supabase.com](https://supabase.com) → **New Project**
-2. In **SQL Editor**, run the two scripts in order:
-   - `supabase/migrations/001_initial_schema.sql` — creates all tables, triggers, and RLS policies
-   - `supabase/seed.sql` — seeds shop items and achievements
-3. Copy your **Project URL**, **anon key**, and **service_role key** from *Settings → API*
-
-### 3. Configure environment variables
-
-```bash
-cp .env.example .env.local
-```
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-> ⚠️ **Never commit `.env.local`** — the `SUPABASE_SERVICE_ROLE_KEY` bypasses Row Level Security and must stay secret.
-
-### 4. Run the dev server
+### 2. Run the dev server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — create an account and start adventuring.
-
-### 5. Production build
-
-```bash
-npm run build
-npm start
-```
----
-
-## 🗄 Database Schema
-
-| Table              | Purpose                                              |
-| ------------------ | ---------------------------------------------------- |
-| `profiles`         | User identity, level, total XP, gold, title          |
-| `character_stats`  | The six trainable attributes                         |
-| `quests`           | User quests with server-assigned rewards             |
-| `quest_completions`| Historical log of every completion                   |
-| `streaks`          | Current/longest streak + last activity date          |
-| `items`            | Shop catalog (seeded)                                |
-| `inventory`        | Purchased items, quantities, equipped state          |
-| `achievements`     | Achievement definitions (seeded)                     |
-| `user_achievements`| Unlocked per-user achievements                       |
-| `transactions`     | Permanent XP/gold ledger                             |
-
-An `AFTER INSERT ON auth.users` trigger automatically creates the `profile`, `character_stats`, and `streaks` row for every new signup.
+Open [http://localhost:3000](http://localhost:3000) — click **🎮 Enter Realm (Instant Demo)** and start adventuring immediately without mandatory external database setups!
 
 ---
 
@@ -143,15 +101,27 @@ An `AFTER INSERT ON auth.users` trigger automatically creates the `profile`, `ch
 | ------ | ------------------------------ | --------------------------------- |
 | GET    | `/api/profile`                 | Fetch profile + stats + streak    |
 | PATCH  | `/api/profile`                 | Update username / avatar          |
-| GET    | `/api/quests`                  | List quests (filterable)          |
-| POST   | `/api/quests`                  | Create a quest                     |
+| GET    | `/api/quests`                  | List quests (filterable by day/attribute)|
+| POST   | `/api/quests`                  | Create a quest                    |
 | GET    | `/api/quests/:id`              | Fetch a single quest              |
-| PATCH  | `/api/quests/:id`              | Update a quest                     |
-| DELETE | `/api/quests/:id`              | Delete (abandon) an active quest   |
-| POST   | `/api/quests/:id/complete`     | Complete quest → full RPG engine   |
-| POST   | `/api/shop/purchase`           | Buy an item with gold              |
-| POST   | `/api/inventory/:id/equip`     | Equip / unequip an inventory item  |
-| GET    | `/api/analytics`               | Raw analytics payload              |
+| PATCH  | `/api/quests/:id`              | Update a quest                    |
+| DELETE | `/api/quests/:id`              | Delete (abandon) an active quest  |
+| POST   | `/api/quests/:id/complete`     | Complete quest → full RPG engine  |
+| POST   | `/api/auth/register`           | Register new user                 |
+| POST   | `/api/auth/login`              | Authenticate user                 |
+| GET    | `/api/auth/me`                 | Fetch authenticated user info     |
+| GET    | `/api/todos`                   | List todos by day & priority      |
+| POST   | `/api/todos`                   | Create todo task                  |
+| PATCH  | `/api/todos/:id/toggle`        | Toggle todo completion            |
+| DELETE | `/api/todos/:id`               | Delete todo task                  |
+| GET    | `/api/quiz/categories`         | Fetch quiz categories catalog     |
+| GET    | `/api/quiz/questions/:category`| Fetch quiz questions for category |
+| POST   | `/api/quiz/submit`             | Grade answers & award RPG XP/Gold |
+| GET    | `/api/user/stats`              | User metrics & category scores    |
+| DELETE | `/api/user/reset`              | Reset user data & stats           |
+| POST   | `/api/shop/purchase`           | Buy an item with gold             |
+| POST   | `/api/inventory/:id/equip`     | Equip / unequip an inventory item |
+| GET    | `/api/analytics`               | Raw analytics payload             |
 
 ### The `complete` endpoint runs the whole RPG engine server-side:
 
