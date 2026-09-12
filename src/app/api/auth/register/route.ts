@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       level: 1,
       xp: 0,
       totalXP: 0,
+      gold: 100,
       quizzesCompleted: 0,
       correctAnswers: 0,
       categoryScores: {
